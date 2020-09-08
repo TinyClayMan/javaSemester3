@@ -1,2 +1,3 @@
 # javaThings
-Some code (mostly) for MIREA (2020)
+Some code (mostly?) for MIREA (2020)
+
