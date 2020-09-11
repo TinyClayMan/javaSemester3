@@ -103,8 +103,15 @@ public class Main {
         */
 
         Dog funnyYellowDog = new Dog();
-        /*funnyYellowDog.setAge(12);
-        funnyYellowDog.setName(Bark)
-        */
+        funnyYellowDog.setAge(12);
+        funnyYellowDog.setName("Bark");
+        Dog shibaInu = new Dog();
+        shibaInu.setAge(2);
+        shibaInu.setName("Shiben");
+        Kennel smallKennel = new Kennel(2);
+        smallKennel.addDogs(funnyYellowDog);
+        smallKennel.addDogs(shibaInu);
+        smallKennel.getDog(1);
     }
 }
+
