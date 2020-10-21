@@ -30,7 +30,12 @@ public class Main extends JFrame {
                     if (x1 == randNumber)
                         JOptionPane.showMessageDialog(null, "Congratulations! The number is " + x1, "Success", JOptionPane.INFORMATION_MESSAGE);
                     else {
-                        JOptionPane.showMessageDialog(null, "Nope! Not this number", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                        if (x1 > randNumber) {
+                        	JOptionPane.showMessageDialog(null, "Nope! Not this number. Try lower", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        if (x1 < randNumber) {
+                        	JOptionPane.showMessageDialog(null, "Nope! Not this number. Try higher", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                        }
                         flag++;
                         if (flag==3) System.exit(1);
                     }
