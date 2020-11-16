@@ -2,7 +2,6 @@ public class Conway2D {
     private int width;
     private int height;
     private int size;
-    private int seedCount = 900;
     private int iterations=0;
     /*
      * Data representing the grid in 1d format. Specified as byte to allow for multiple
@@ -14,25 +13,13 @@ public class Conway2D {
         this(100, 100);
     }
 
-    /**
-     * Constructs a new Game of Life with the specified dimensions.
-     * @param width
-     * @param height
-     */
+    //Constructs a new Game of Life with the specified dimensions.
 
     public Conway2D(int width, int height){
         this.width = width;
         this.height = height;
         this.size = width * height;
         data = new byte[size];
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public void reInit(int width, int height) {
@@ -46,9 +33,7 @@ public class Conway2D {
         this.iterations = 0;
     }
 
-    /*
-     * Iterates the game one step forward
-     */
+    //Iterates the game one step forward
     public void iterate(){
         byte[] prev = new byte[size];
         System.arraycopy(data, 0, prev, 0, size);
@@ -69,10 +54,9 @@ public class Conway2D {
 
     /**
      * Checks if the cell is alive
-     * @param x The x position
-     * @param y The y position
-     * @param d The grid data.
-     * @return
+     * x The x position
+     * y The y position
+     * d The grid data.
      */
     protected int isAlive(int x, int y, byte[] d){
         int count = 0;
@@ -104,7 +88,8 @@ public class Conway2D {
 
     //Randomly seeds the grid
     public void randomSeed(){
-        for ( int i = 0; i < seedCount; i++ ){
+        int seedCount = (width*height) / 4 + ((width*height) / 1000) * 100;
+        for (int i = 0; i < seedCount; i++ ){
             int x = (int)(Math.random() * width);
             int y = (int)(Math.random() * height);
             data[y * width + x] = 1;
@@ -114,14 +99,5 @@ public class Conway2D {
     //Retrieves the grid data
     public byte[] getData(){
         return data;
-    }
-
-    //
-    public StringBuilder byteToString() {
-        StringBuilder stringField = new StringBuilder();
-        for (int j = 0; j < this.getWidth() * this.getHeight(); j++) {
-            stringField.append(this.getData()[j]);
-        }
-        return stringField;
     }
 }

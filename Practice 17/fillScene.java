@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 
 public class fillScene {
-    public static void fillField(GridPane gridPane, StringBuilder stringField, int[] parameters) {
-        for (int i = 0; i < stringField.length(); i++) {
+    public static void fillField(GridPane gridPane, byte[] data, int[] parameters) {
+        for (int i = 0; i < data.length; i++) {
             Rectangle rectGray = new Rectangle();
             Rectangle rectRed = new Rectangle();
             rectGray.setWidth(10);
@@ -14,7 +14,7 @@ public class fillScene {
             rectRed.setWidth(10);
             rectRed.setHeight(10);
             rectRed.setFill(Color.RED);
-            gridPane.add((stringField.charAt(i) - '0') != 0 ? rectRed : rectGray, i % parameters[0], i / parameters[1]);
+            gridPane.add(data[i] != 0 ? rectRed : rectGray, i % parameters[0], i / parameters[1]);
         }
         //return gridPane;
     }

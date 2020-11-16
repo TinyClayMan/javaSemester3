@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,12 +8,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionListener;
-
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         stage.setTitle("John Conway's Game of Life");
         stage.setX(100);
         stage.setY(100);
@@ -46,75 +42,62 @@ public class Main extends Application {
 
         //Close window on pressing ESC
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            switch(event.getCode()) {
-                case ESCAPE : {
-                    stage.close();
-                    break;
-                }
-                case F5 : {
+            switch (event.getCode()) {
+                case ESCAPE -> stage.close();
+                case F5 -> {
                     field.iterate();
-                    fillScene.fillField(fieldPane, field.byteToString(), parameters);
-                    break;
+                    fillScene.fillField(fieldPane, field.getData(), parameters);
+                    //let it rest (prevent CPU from reaching higher %)
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                case R : {
-                    btnRes.fire();
-                    break;
-                }
-                case ENTER: {
-                    btnAcc.fire();
-                    break;
-                }
-                default:  {
+                case R -> btnRes.fire();
+                case ENTER -> btnAcc.fire();
+                default -> {
                     // nothing happens if not ESC or F5
                 }
             }
         });
 
         //Button that accepts the values
-        btnAcc.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                field.resetIterations();
-                parameters[0] = Integer.parseInt(width.getText());
-                parameters[1] = Integer.parseInt(height.getText());
-                parameters[2] = Integer.parseInt(iterations.getText());
-                field.reInit(parameters[0], parameters[1]);
-                field.randomSeed();
-                for (int i=0; i<parameters[2]; i++) {
-                    StringBuilder stringField = new StringBuilder();
-                    field.iterate();
-                    for (int j = 0; j < parameters[0] * parameters[1]; j++) {
-                        if (j % parameters[0] == 0) stringField.append("\n");
-                        stringField.append(field.getData()[j]);
-                    }
-                    //System.out.println(stringField);
-                    fillScene.fillField(fieldPane, field.byteToString(), parameters);
+        btnAcc.setOnAction(actionEvent -> {
+            field.resetIterations();
+            parameters[0] = Integer.parseInt(width.getText());
+            parameters[1] = Integer.parseInt(height.getText());
+            parameters[2] = Integer.parseInt(iterations.getText());
+            field.reInit(parameters[0], parameters[1]);
+            field.randomSeed();
+            for (int i=0; i<parameters[2]; i++) {
+                field.iterate();
+                fillScene.fillField(fieldPane, field.getData(), parameters);
+                //let it rest (prevent CPU from reaching higher %)
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
-                VBox box = new VBox();
-                box.getChildren().addAll(fieldPane);
-                Scene sceneGame = new Scene(box, parameters[0]*10, parameters[1]*10);
-                stageGame.setScene(sceneGame);
-                stageGame.show();
             }
+
+            VBox box = new VBox();
+            box.getChildren().addAll(fieldPane);
+            Scene sceneGame = new Scene(box, parameters[0]*10, parameters[1]*10);
+            stageGame.setScene(sceneGame);
+            stageGame.show();
         });
 
         //Button that iterates the cellular automaton
-        btnIt.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                field.iterate();
-                fillScene.fillField(fieldPane, field.byteToString(), parameters);
-            }
+        btnIt.setOnAction(actionEvent -> {
+            field.iterate();
+            fillScene.fillField(fieldPane, field.getData(), parameters);
         });
 
         //Button that clears the visualization
-        btnRes.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                fieldPane.getChildren().clear();
-                field.resetIterations();
-            }
+        btnRes.setOnAction(actionEvent -> {
+            fieldPane.getChildren().clear();
+            field.resetIterations();
         });
 
         Group group = new Group(vbox); //Everything is here
