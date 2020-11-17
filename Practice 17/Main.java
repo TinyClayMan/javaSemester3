@@ -44,16 +44,7 @@ public class Main extends Application {
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
             switch (event.getCode()) {
                 case ESCAPE -> stage.close();
-                case F5 -> {
-                    field.iterate();
-                    fillScene.fillField(fieldPane, field.getData(), parameters);
-                    //let it rest (prevent CPU from reaching higher %)
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                case F5 -> btnIt.fire();
                 case R -> btnRes.fire();
                 case ENTER -> btnAcc.fire();
                 default -> {
@@ -71,14 +62,7 @@ public class Main extends Application {
             field.reInit(parameters[0], parameters[1]);
             field.randomSeed();
             for (int i=0; i<parameters[2]; i++) {
-                field.iterate();
-                fillScene.fillField(fieldPane, field.getData(), parameters);
-                //let it rest (prevent CPU from reaching higher %)
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                btnIt.fire();
             }
 
             VBox box = new VBox();
@@ -91,7 +75,13 @@ public class Main extends Application {
         //Button that iterates the cellular automaton
         btnIt.setOnAction(actionEvent -> {
             field.iterate();
+            fieldPane.getChildren().clear();
             fillScene.fillField(fieldPane, field.getData(), parameters);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
 
         //Button that clears the visualization
