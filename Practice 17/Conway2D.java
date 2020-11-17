@@ -2,7 +2,7 @@ public class Conway2D {
     private int width;
     private int height;
     private int size;
-    private int iterations=0;
+    private int iterations=0; //For reference
     /*
      * Data representing the grid in 1d format. Specified as byte to allow for multiple
      * phases.
