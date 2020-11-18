@@ -42,14 +42,17 @@ public class Conway2D {
             for ( int j = 0; j < height; j++ ){
                 int type = isAlive(i, j, prev);
                 if ( type > 0 ){
-                    next[j * width + i] = 1;
+                    //next[j * width + i] = 1;
+                    data[j * width + i] = 1;
                 }else{
-                    next[j * width + i] = 0;
+                    //next[j * width + i] = 0;
+                    data[j * width + i] = 0;
                 }
             }
         }
-        System.arraycopy(next, 0, data, 0, size);
+        //System.arraycopy(next, 0, data, 0, size);
         System.out.println(++iterations);
+        Runtime.getRuntime().gc();
     }
 
     /**
@@ -72,13 +75,13 @@ public class Conway2D {
             }
         }
 
-        //dead
+        //If dead
         if ( d[pos1] == 0 ){
-            if ( count == 3 ){//becomes alive.
+            if ( count == 3 ){//Becomes alive.
                 return 1;
             }
             return 0;//still dead
-        }else{//live
+        }else{//If alive
             if ( count < 2 || count > 3 ){//Dies
                 return 0;
             }
